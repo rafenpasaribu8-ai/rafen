@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rafen Gemini Chat 🤖💗</title>
+  <style>
+    :root{
+      --bg1:#0b0014; --bg2:#1b0030;
+      --card:rgba(255,255,255,.08);
+      --stroke:rgba(255,255,255,.14);
+      --txt:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.68);
+      --pink:#ff4fd8; --pink2:#ff86e9;
+      --shadow:0 16px 40px rgba(0,0,0,.35);
+      --r:18px;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    }
+    body{
+      margin:0; min-height:100vh; color:var(--txt);
+      background: radial-gradient(1200px 600px at 20% 10%, #2a0057 0%, transparent 60%),
+                  radial-gradient(900px 520px at 80% 20%, #52002a 0%, transparent 60%),
+                  linear-gradient(160deg, var(--bg1), var(--bg2));
+    }
+    .wrap{max-width:900px;margin:0 auto;padding:18px}
+    .top{
+      display:flex;gap:12px;align-items:center;justify-content:space-between;
+      padding:12px 14px;border:1px solid var(--stroke);background:var(--card);
+      border-radius:var(--r);box-shadow:var(--shadow);backdrop-filter: blur(10px);
+    }
+    .brand{display:flex;gap:10px;align-items:center}
+    .dot{
+      width:36px;height:36px;border-radius:12px;
+      background: linear-gradient(135deg,var(--pink),#7c3cff);
+      box-shadow: 0 0 30px rgba(255,79,216,.35);
+      display:grid;place-items:center;font-weight:800;
+    }
+    h1{font-size:16px;margin:0}
+    .sub{font-size:12px;color:var(--muted);margin-top:2px}
+    .btn{
+      border:1px solid var(--stroke);background:rgba(255,255,255,.06);
+      color:var(--txt);padding:10px 12px;border-radius:14px;cursor:pointer;
+      transition:.15s transform,.15s background;
+      font-weight:600;
+    }
+    .btn:active{transform:scale(.98)}
+    .btn.primary{
+      border:none;background:linear-gradient(135deg,var(--pink),#7c3cff);
+      box-shadow:0 10px 28px rgba(255,79,216,.18);
+    }
+    .grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
+    .chat{
+      border:1px solid var(--stroke);background:var(--card);
+      border-radius:var(--r);box-shadow:var(--shadow);
+      height:66vh;min-height:420px;overflow:auto;padding:14px;
+      backdrop-filter: blur(10px);
+    }
+    .msg{max-width:82%;padding:10px 12px;border-radius:16px;margin:10px 0;
+      border:1px solid rgba(255,255,255,.12);white-space:pre-wrap;word-wrap:break-word;
+      line-height:1.35;font-size:14px;
+    }
+    .me{margin-left:auto;background:rgba(255,79,216,.16);border-color:rgba(255,79,216,.35)}
+    .ai{margin-right:auto;background:rgba(124,60,255,.14);border-color:rgba(124,60,255,.32)}
+    .meta{font-size:11px;color:var(--muted);margin-top:6px}
+    .row{
+      display:flex;gap:10px;align-items:flex-end;
+      border:1px solid var(--stroke);background:var(--card);
+      border-radius:var(--r);box-shadow:var(--shadow);
+      padding:12px;backdrop-filter: blur(10px);
+    }
+    textarea{
+      width:100%;min-height:44px;max-height:140px;resize:vertical;
+      border:1px solid rgba(255,255,255,.14);border-radius:14px;
+      background:rgba(0,0,0,.22);color:var(--txt);
+      padding:10px 12px;outline:none;font-size:14px;
+    }
+    .pill{
+      display:inline-flex;gap:8px;align-items:center;
+      padding:8px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.18);color:var(--muted);font-size:12px;
+    }
+    .modal{
+      position:fixed;inset:0;background:rgba(0,0,0,.55);
+      display:none;align-items:center;justify-content:center;padding:18px;
+    }
+    .modal.on{display:flex}
+    .panel{
+      width:min(560px,100%);border-radius:22px;
+      border:1px solid rgba(255,255,255,.14);background:rgba(20,0,35,.92);
+      box-shadow: 0 24px 80px rgba(0,0,0,.55);
+      padding:16px;
+    }
+    .field{display:flex;flex-direction:column;gap:8px;margin:12px 0}
+    label{font-size:12px;color:var(--muted)}
+    input{
+      padding:10px 12px;border-radius:14px;border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.22);color:var(--txt);outline:none;
+    }
+    .small{font-size:12px;color:var(--muted);line-height:1.35}
+    .foot{display:flex;gap:10px;justify-content:flex-end;margin-top:12px;flex-wrap:wrap}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <div class="dot">🤖</div>
+        <div>
+          <h1>Rafen Gemini Chat</h1>
+          <div class="sub">Aman (API key di Cloudflare Worker) • Pink vibes 😚💗</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end;">
+        <span id="status" class="pill">Status: belum diset</span>
+        <button class="btn" id="btnSettings">Settings</button>
+        <button class="btn" id="btnClear">Clear</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="chat" id="chat"></div>
+
+      <div class="row">
+        <textarea id="input" placeholder="Tulis pesanmu… (Enter untuk kirim, Shift+Enter baris baru)"></textarea>
+        <button class="btn primary" id="btnSend">Kirim</button>
+      </div>
+
+      <div class="meta">
+        Worker URL kamu: <span id="workerShow"></span> • Model: <span id="modelShow"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="panel">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+        <div>
+          <h1 style="font-size:16px;margin:0;">Settings</h1>
+          <div class="small">Masukin base URL Worker (tanpa <b>/chat</b>). Contoh: <br>
+            <code>https://rafen-gemini.rafenpasaribu8.workers.dev</code>
+          </div>
+        </div>
+        <button class="btn" id="btnClose">Tutup</button>
+      </div>
+
+      <div class="field">
+        <label>Worker Base URL</label>
+        <input id="workerUrl" placeholder="https://....workers.dev" />
+      </div>
+
+      <div class="field">
+        <label>Model (opsional)</label>
+        <input id="model" placeholder="gemini-2.5-flash" />
+        <div class="small">Kalau kosong, default: <b>gemini-2.5-flash</b></div>
+      </div>
+
+      <div class="foot">
+        <button class="btn" id="btnPing">Test Worker</button>
+        <button class="btn primary" id="btnSave">Save</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+
+  const chatEl = $("chat");
+  const inputEl = $("input");
+  const statusEl = $("status");
+  const workerShow = $("workerShow");
+  const modelShow = $("modelShow");
+
+  const modal = $("modal");
+  const workerUrlEl = $("workerUrl");
+  const modelEl = $("model");
+
+  const LS_WORKER = "rafen_worker_url";
+  const LS_MODEL  = "rafen_model";
+  const LS_CHAT   = "rafen_chat_history";
+
+  function setStatus(text, ok=false){
+    statusEl.textContent = "Status: " + text;
+    statusEl.style.borderColor = ok ? "rgba(0,255,160,.35)" : "rgba(255,255,255,.14)";
+    statusEl.style.color = ok ? "rgba(200,255,235,.95)" : "rgba(255,255,255,.72)";
+  }
+
+  function addMsg(role, text){
+    const div = document.createElement("div");
+    div.className = "msg " + (role === "user" ? "me" : "ai");
+    div.textContent = text;
+    chatEl.appendChild(div);
+    chatEl.scrollTop = chatEl.scrollHeight;
+  }
+
+  function loadHistory(){
+    chatEl.innerHTML = "";
+    const hist = JSON.parse(localStorage.getItem(LS_CHAT) || "[]");
+    for (const m of hist) addMsg(m.role, m.text);
+  }
+
+  function saveHistory(hist){
+    localStorage.setItem(LS_CHAT, JSON.stringify(hist.slice(-30)));
+  }
+
+  function getWorker(){
+    return (localStorage.getItem(LS_WORKER) || "").trim().replace(/\/+$/,"");
+  }
+  function getModel(){
+    return (localStorage.getItem(LS_MODEL) || "gemini-2.5-flash").trim();
+  }
+
+  function refreshMeta(){
+    const w = getWorker();
+    const m = getModel();
+    workerShow.textContent = w ? w : "(belum di-set)";
+    modelShow.textContent = m;
+    setStatus(w ? "siap" : "set Worker URL dulu", !!w);
+  }
+
+  async function pingWorker(){
+    const w = workerUrlEl.value.trim().replace(/\/+$/,"");
+    if (!w) return alert("Isi Worker URL dulu ya 😚");
+    try{
+      const res = await fetch(w + "/", { method:"GET" });
+      const data = await res.json().catch(()=>null);
+      if (res.ok && data && data.ok) alert("Worker OK ✅ " + (data.msg || ""));
+      else alert("Worker kebuka tapi responsnya aneh 😵\n" + JSON.stringify(data));
+    }catch(e){
+      alert("Gagal akses Worker 😭\n" + e.message);
+    }
+  }
+
+  async function send(){
+    const w = getWorker();
+    const m = getModel();
+    if (!w) {
+      modal.classList.add("on");
+      return;
+    }
+    const text = inputEl.value.trim();
+    if (!text) return;
+
+    // Load history in "contents" format
+    const hist = JSON.parse(localStorage.getItem(LS_CHAT) || "[]");
+
+    // UI
+    addMsg("user", text);
+    inputEl.value = "";
+
+    // Build contents array
+    const contents = [];
+    for (const item of hist){
+      contents.push({
+        role: item.role === "user" ? "user" : "model",
+        parts: [{ text: item.text }]
+      });
+    }
+    contents.push({ role:"user", parts:[{ text }] });
+
+    // Save user message to history now (AI reply later)
+    hist.push({ role:"user", text });
+    saveHistory(hist);
+
+    // Loading bubble
+    addMsg("model", "…");
+    const loadingEl = chatEl.lastElementChild;
+
+    try{
+      const res = await fetch(w + "/chat", {
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body: JSON.stringify({ model: m, contents })
+      });
+      const data = await res.json().catch(()=>null);
+
+      if (!res.ok){
+        const msg = (data && data.error) ? data.error : ("HTTP " + res.status);
+        loadingEl.textContent = "Error 😭: " + msg;
+        return;
+      }
+
+      loadingEl.textContent = data.reply || "(kosong)";
+      hist.push({ role:"model", text: data.reply || "" });
+      saveHistory(hist);
+    }catch(e){
+      loadingEl.textContent = "Gagal konek 😭: " + e.message;
+    }
+  }
+
+  // Buttons
+  $("btnSend").addEventListener("click", send);
+  $("btnClear").addEventListener("click", () => {
+    if (!confirm("Hapus chat?")) return;
+    localStorage.removeItem(LS_CHAT);
+    loadHistory();
+  });
+
+  $("btnSettings").addEventListener("click", () => {
+    workerUrlEl.value = getWorker();
+    modelEl.value = localStorage.getItem(LS_MODEL) || "";
+    modal.classList.add("on");
+  });
+
+  $("btnClose").addEventListener("click", () => modal.classList.remove("on"));
+  modal.addEventListener("click", (e)=>{ if (e.target === modal) modal.classList.remove("on"); });
+
+  $("btnSave").addEventListener("click", () => {
+    const w = workerUrlEl.value.trim().replace(/\/+$/,"");
+    const m = modelEl.value.trim();
+    if (!w) return alert("Worker URL wajib diisi ya sayang 😚");
+
+    localStorage.setItem(LS_WORKER, w);
+    if (m) localStorage.setItem(LS_MODEL, m);
+    else localStorage.setItem(LS_MODEL, "gemini-2.5-flash");
+
+    modal.classList.remove("on");
+    refreshMeta();
+    alert("Saved ✅");
+  });
+
+  $("btnPing").addEventListener("click", pingWorker);
+
+  // Enter to send
+  inputEl.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey){
+      e.preventDefault();
+      send();
+    }
+  });
+
+  // Init
+  loadHistory();
+  refreshMeta();
+</script>
+</body>
+</html>
