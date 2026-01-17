@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Rafen </></title>
+<style>
+body{margin:0;font-family:Segoe UI,sans-serif;background:linear-gradient(135deg,#ffd1e8,#ff5fa2);color:#fff}
+header{background:#ff2f92;padding:18px;text-align:center;font-size:34px;font-weight:800;position:relative}
+.logo{position:absolute;top:10px;font-weight:800;cursor:pointer;background:#fff;color:#ff2f92;padding:6px 12px;border-radius:12px}
+#logoLeft{left:10px} #logoRight{right:10px}
+.container{padding:20px}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px;align-items:center}
+select,button{padding:10px;border:none;border-radius:8px}
+button{background:#ff2f92;color:#fff;cursor:pointer}
+.gallery{column-count:5;column-gap:10px}
+@media(max-width:1200px){.gallery{column-count:4}}
+@media(max-width:900px){.gallery{column-count:3}}
+@media(max-width:600px){.gallery{column-count:2}}
+.card{break-inside:avoid;background:#fff;border-radius:12px;overflow:hidden;margin-bottom:10px;position:relative}
+img{width:100%;display:block;cursor:pointer}
+.badge{position:absolute;bottom:6px;right:6px;background:#ff2f92;color:#fff;padding:3px 6px;border-radius:6px;font-size:10px}
+.small{font-size:12px;opacity:.8}
+#login{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh}
+#loginBox{background:rgba(255,255,255,.25);padding:24px;border-radius:16px;text-align:center}
+#app{display:none}
+#codeViewer{position:fixed;bottom:0;left:0;right:0;height:40%;background:#1e1e1e;color:#0f0;display:none;overflow:auto;padding:10px}
+#copyBtn{position:absolute;top:6px;right:10px;background:#ff2f92;color:#fff;border:none;padding:6px 10px;border-radius:6px;cursor:pointer}
+</style>
+</head>
+<body>
+
+<div id="login">
+  <div id="loginBox">
+    <h2>🔐 Login Rafen </></h2>
+    <input type="password" id="pw" placeholder="Masukkan Password">
+    <br><br>
+    <button onclick="doLogin()">Masuk</button>
+  </div>
+</div>
+
+<div id="app">
+<header>
+  <div class="logo" id="logoLeft" onclick="toggleCode()">&lt;/&gt;</div>
+  Rafen &lt;/&gt;
+  <div class="logo" id="logoRight" onclick="toggleCode()">&lt;/&gt;</div>
+</header>
+
+<div class="container">
+  <div class="controls">
+    <select id="category">
+      <option value="waifu">Waifu</option>
+      <option value="neko">Neko</option>
+      <option value="shinobu">Shinobu</option>
+      <option value="megumin">Megumin</option>
+      <option value="smile">Smile</option>
+      <option value="uniform">School Uniform</option>
+      <option value="kimono">Kimono</option>
+      <option value="idol">Idol</option>
+      <option value="fantasy">Fantasy</option>
+    </select>
+    <button onclick="loadImages()">🔄 Refresh</button>
+  </div>
+  <p class="small">Menampilkan <b>100 gambar anime cantik</b>. Klik gambar untuk <b>Download HD</b>.</p>
+  <div class="gallery" id="gallery"></div>
+</div>
+</div>
+
+<div id="codeViewer">
+  <button id="copyBtn" onclick="copyCode()">Copy</button>
+  <pre id="codeContent"></pre>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<script>
+const HASH = "7fc56509ba4e4e6021fda53366a26d41";
+const TAGS = ["waifu","neko","shinobu","megumin","smile","uniform","kimono","idol","fantasy","cute","beautiful","portrait","girl","art","illustration"];
+
+function doLogin(){
+  if(CryptoJS.MD5(pw.value).toString() === HASH){
+    document.getElementById('login').style.display='none';
+    document.getElementById('app').style.display='block';
+    loadImages();
+  } else {
+    alert('Password salah.');
+  }
+}
+
+async function fetchImage(tag){
+  const res = await fetch("https://api.waifu.pics/sfw/" + tag);
+  const data = await res.json();
+  return data.url;
+}
+
+async function downloadHD(url, index){
+  const resp = await fetch(url);
+  const blob = await resp.blob();
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = "rafen_anime_hd_" + index + ".jpg";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+}
+
+async function loadImages(){
+  const g = document.getElementById("gallery");
+  g.innerHTML = "";
+  const base = document.getElementById("category").value;
+  for(let i=1;i<=100;i++){ 
+    const randomTag = TAGS[Math.floor(Math.random()*TAGS.length)];
+    const tag = Math.random() < 0.5 ? base : randomTag;
+    const url = await fetchImage(tag);
+    const img = document.createElement("img");
+    img.src = url;
+    img.loading = "lazy";
+    img.onclick = () => downloadHD(url, i);
+    const card = document.createElement("div");
+    card.className = "card";
+    const badge = document.createElement("div");
+    badge.className = "badge";
+    badge.innerText = "HD";
+    card.appendChild(img);
+    card.appendChild(badge);
+    g.appendChild(card);
+  }
+}
+
+function toggleCode(){
+  const cv = document.getElementById('codeViewer');
+  if(cv.style.display === 'none' || cv.style.display === ''){
+    cv.style.display = 'block';
+    document.getElementById('codeContent').innerText = document.documentElement.outerHTML;
+  } else {
+    cv.style.display = 'none';
+  }
+}
+
+function copyCode(){
+  navigator.clipboard.writeText(document.getElementById('codeContent').innerText);
+  alert('Kode berhasil dicopy.');
+}
+</script>
+
+</body>
+</html>
