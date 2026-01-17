@@ -1,0 +1,1785 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Rafen ❤️ Brigita</title>
+  <meta name="theme-color" content="#ff4da6" />
+  <style>
+    :root{
+      --bg1:#ffd1ea;
+      --bg2:#ffe6f3;
+      --pink:#ff4da6;
+      --pink2:#ff77c8;
+      --pink3:#ffb6df;
+      --ink:#2a1430;
+      --muted:#6b3b63;
+      --card: rgba(255,255,255,.78);
+      --glass: rgba(255,255,255,.26);
+      --stroke: rgba(255,77,166,.22);
+      --shadow: 0 18px 60px rgba(44, 8, 28, .18);
+      --shadow2: 0 10px 30px rgba(255, 77, 166, .20);
+      --radius: 22px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1200px 800px at 20% 10%, #fff 0%, transparent 55%),
+        radial-gradient(900px 650px at 90% 25%, #fff 0%, transparent 50%),
+        radial-gradient(900px 700px at 30% 90%, #fff 0%, transparent 55%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      overflow-x:hidden;
+    }
+
+    /* 🌸 Background FX */
+    .bgFX{ position:fixed; inset:0; pointer-events:none; z-index:-1; }
+    .blob{
+      position:absolute; filter: blur(30px); opacity:.55; mix-blend-mode:multiply;
+      border-radius: 999px;
+      animation: floaty 10s ease-in-out infinite;
+    }
+    .blob.b1{ width:360px; height:360px; left:-70px; top:80px; background: #ff6ab7; }
+    .blob.b2{ width:420px; height:420px; right:-120px; top:160px; background:#ffc2e6; animation-duration: 14s; }
+    .blob.b3{ width:320px; height:320px; left:10%; bottom:-120px; background:#ff9ad6; animation-duration: 16s; }
+    @keyframes floaty{
+      0%,100%{ transform:translate(0,0) scale(1); }
+      50%{ transform:translate(18px,-18px) scale(1.05); }
+    }
+    .spark{
+      position:absolute;
+      width:10px;height:10px;
+      border-radius:50%;
+      background: radial-gradient(circle, #fff 0%, rgba(255,255,255,.2) 65%, transparent 70%);
+      opacity:.7;
+      animation: twinkle 2.6s ease-in-out infinite;
+    }
+    @keyframes twinkle{
+      0%,100%{ transform:scale(.9); opacity:.45; }
+      50%{ transform:scale(1.2); opacity:.85; }
+    }
+
+    /* Hearts */
+    .heart{
+      position:fixed;
+      width: 14px; height: 14px;
+      transform: rotate(45deg);
+      background: rgba(255,77,166,.22);
+      border: 1px solid rgba(255,77,166,.18);
+      border-radius: 4px;
+      animation: rise 6.2s linear infinite;
+      opacity:.75;
+      pointer-events:none;
+      z-index:9999;
+    }
+    .heart:before, .heart:after{
+      content:"";
+      position:absolute;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: rgba(255,77,166,.22);
+      border: 1px solid rgba(255,77,166,.18);
+    }
+    .heart:before{ left:-8px; top:0; }
+    .heart:after{ top:-8px; left:0; }
+    @keyframes rise{
+      0%{ transform: translateY(0) rotate(45deg) scale(.95); opacity:.0; }
+      10%{ opacity:.75; }
+      100%{ transform: translateY(-120vh) rotate(45deg) scale(1.25); opacity:0; }
+    }
+
+    /* Layout */
+    .wrap{
+      width:min(1120px, 92vw);
+      margin: 22px auto 48px;
+      padding: 14px 0 40px;
+    }
+
+    /* Top bar */
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      padding: 10px 0 12px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .topbarInner{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px;
+      background: linear-gradient(180deg, rgba(255,255,255,.58), rgba(255,255,255,.25));
+      border: 1px solid rgba(255,255,255,.45);
+      border-radius: 18px;
+      padding: 10px 12px;
+      box-shadow: var(--shadow2);
+    }
+    .codeBtn{
+      display:flex; align-items:center; gap:10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.70);
+      box-shadow: 0 10px 20px rgba(255,77,166,.10);
+      cursor:pointer;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform .12s ease, background .12s ease;
+      font-weight:800;
+    }
+    .codeBtn:active{ transform: scale(.98); }
+    .codeBtn:hover{ background: rgba(255,255,255,.88); }
+    .codeIcon{
+      width:34px;height:34px;border-radius:12px;
+      display:grid;place-items:center;
+      background: linear-gradient(135deg, #ff4da6, #ff9ad6);
+      color:white;
+      box-shadow: 0 12px 22px rgba(255, 77, 166, .25);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size:16px;
+    }
+    .brand{
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      gap:2px; text-align:center;
+      padding: 2px 10px;
+      flex:1;
+    }
+    .brand h1{
+      margin:0;
+      font-size: 16px;
+      letter-spacing:.2px;
+      font-weight:900;
+    }
+    .brand p{
+      margin:0;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight:700;
+    }
+
+    /* Big Title */
+    .heroTitle{
+      margin-top: 14px;
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,.60);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+      padding: 18px 16px;
+      text-align:center;
+    }
+    .heroTitle::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(900px 300px at 50% 0%, rgba(255,77,166,.28), transparent 60%),
+        radial-gradient(680px 260px at 15% 10%, rgba(255,182,223,.22), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.40), rgba(255,255,255,.05));
+      pointer-events:none;
+      z-index:0;
+    }
+    .heroTitle > *{ position:relative; z-index:1; }
+    .heroTitle h2{
+      margin:0;
+      font-size: clamp(28px, 4.6vw, 54px);
+      font-weight: 1000;
+      letter-spacing: .4px;
+      line-height: 1.05;
+    }
+    .heroTitle .sub{
+      margin: 10px auto 0;
+      max-width: 820px;
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .heroBadges{
+      margin-top: 12px;
+      display:flex;
+      gap:8px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+    .chip{
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.70);
+      font-weight:900;
+      font-size:12px;
+      color: #4c1b3f;
+      box-shadow: 0 10px 22px rgba(255,77,166,.10);
+    }
+
+    /* Cards / sections */
+    .card{
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,.60);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .card::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(700px 240px at 20% 10%, rgba(255,77,166,.20), transparent 55%),
+        radial-gradient(560px 240px at 80% 0%, rgba(255,182,223,.24), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.35), rgba(255,255,255,.05));
+      pointer-events:none;
+      z-index:0;
+    }
+    .card > *{ position:relative; z-index:1; }
+
+    .grid2{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 900px){
+      .grid2{ grid-template-columns: 1fr; }
+    }
+
+    .pane{
+      padding: 14px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .box{
+      border-radius: 18px;
+      padding: 12px;
+      background: rgba(255,255,255,.64);
+      border: 1px solid rgba(255,77,166,.18);
+      box-shadow: 0 12px 24px rgba(255,77,166,.10);
+    }
+    .box h3{
+      margin:0 0 6px;
+      font-size: 14px;
+      font-weight: 1000;
+      letter-spacing:.2px;
+    }
+    .box p{
+      margin:0 0 10px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 750;
+      line-height:1.45;
+    }
+
+    input, textarea, select{
+      width:100%;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,77,166,.22);
+      background: rgba(255,255,255,.86);
+      outline:none;
+      font-weight: 780;
+      color: #2b1227;
+    }
+    textarea{ min-height: 92px; resize: vertical; }
+    .row{
+      display:flex; gap:10px; align-items:center;
+      flex-wrap:wrap;
+    }
+    .row > *{ flex:1; min-width: 120px; }
+    .tiny{
+      font-size: 12px; color: var(--muted); font-weight: 850; line-height:1.35;
+    }
+
+    button, .btn{
+      appearance:none;
+      border:none;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-weight: 950;
+      cursor:pointer;
+      background: rgba(255,255,255,.74);
+      border: 1px solid rgba(255,77,166,.26);
+      box-shadow: 0 10px 22px rgba(255,77,166,.12);
+      color: #3b1330;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform .12s ease, background .12s ease;
+      touch-action: manipulation;
+    }
+    button:hover{ background: rgba(255,255,255,.90); }
+    button:active{ transform: scale(.99); }
+
+    .primary{
+      background: linear-gradient(135deg, #ff4da6, #ff86cc);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.25);
+      box-shadow: 0 16px 30px rgba(255,77,166,.28);
+    }
+    .ghost{ background: rgba(255,255,255,.58); }
+    .mini{ padding: 10px 12px; border-radius: 12px; font-size: 13px; }
+
+    /* Section title */
+    .section{
+      margin-top: 14px;
+      padding: 14px;
+    }
+    .sectionTitle{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap:12px; flex-wrap:wrap;
+      margin-bottom: 10px;
+    }
+    .sectionTitle h2{
+      margin:0;
+      font-size: 18px;
+      font-weight: 1000;
+    }
+    .sectionTitle .hint{
+      margin:0;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 850;
+    }
+
+    /* Gallery (masonry) */
+    .controls{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-bottom: 10px;
+    }
+    .controls .searchWrap{
+      display:flex; gap:10px; flex:1; min-width: 240px;
+    }
+
+    .masonry{ column-count: 4; column-gap: 12px; }
+    @media (max-width: 1040px){ .masonry{ column-count: 3; } }
+    @media (max-width: 740px){ .masonry{ column-count: 2; } }
+    @media (max-width: 420px){ .masonry{ column-count: 1; } }
+
+    .pin{
+      break-inside: avoid;
+      margin: 0 0 12px;
+      border-radius: 18px;
+      overflow:hidden;
+      border: 1px solid rgba(255,77,166,.20);
+      background: rgba(255,255,255,.78);
+      box-shadow: 0 14px 30px rgba(255,77,166,.12);
+      position:relative;
+    }
+    .pin img{
+      width:100%;
+      display:block;
+      height:auto;
+      transform: scale(1);
+      transition: transform .22s ease;
+    }
+    .pin:hover img{ transform: scale(1.02); }
+    .pinBar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      padding: 10px;
+      background: linear-gradient(180deg, rgba(255,255,255,.84), rgba(255,255,255,.56));
+      border-top: 1px solid rgba(255,77,166,.14);
+    }
+    .badge{
+      font-size: 12px;
+      font-weight: 1000;
+      color:#4a1a3a;
+      display:flex; gap:6px; align-items:center;
+      max-width: 62%;
+      overflow:hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .pinActions{ display:flex; gap:8px; flex-shrink:0; }
+    .iconBtn{
+      width: 40px; height: 40px;
+      border-radius: 14px;
+      display:grid; place-items:center;
+      background: rgba(255,255,255,.78);
+      border: 1px solid rgba(255,77,166,.18);
+      cursor:pointer;
+      transition: transform .12s ease;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .iconBtn:active{ transform: scale(.98); }
+
+    .status{
+      margin-top: 10px;
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--muted);
+      display:flex; gap:10px; flex-wrap:wrap;
+      align-items:center;
+    }
+    .pill{
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.66);
+      border: 1px solid rgba(255,77,166,.18);
+      box-shadow: 0 10px 22px rgba(255,77,166,.10);
+    }
+
+    /* Chat */
+    .chatWrap{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .chatHeader{
+      display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      margin-bottom: 4px;
+    }
+    .modelTag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.70);
+      border: 1px solid rgba(255,77,166,.18);
+      box-shadow: 0 10px 22px rgba(255,77,166,.10);
+      font-weight: 1000;
+      font-size: 12px;
+      color: #4c1b3f;
+      white-space: nowrap;
+    }
+    .chatArea{
+      height: 360px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,77,166,.18);
+      background: rgba(255,255,255,.70);
+      overflow:auto;
+      padding: 12px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.18);
+    }
+    .msg{
+      display:flex;
+      margin: 0 0 10px;
+      gap:10px;
+      align-items:flex-end;
+    }
+    .msg.me{ justify-content:flex-end; }
+    .bubble{
+      max-width: 86%;
+      padding: 10px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,77,166,.18);
+      background: rgba(255,255,255,.80);
+      box-shadow: 0 10px 22px rgba(255,77,166,.08);
+      font-weight: 850;
+      line-height: 1.45;
+      font-size: 13px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .msg.me .bubble{
+      background: linear-gradient(135deg, rgba(255,77,166,.95), rgba(255,134,204,.95));
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.22);
+      box-shadow: 0 16px 28px rgba(255,77,166,.22);
+    }
+    .avatar{
+      width: 34px; height: 34px;
+      border-radius: 14px;
+      display:grid; place-items:center;
+      border: 1px solid rgba(255,77,166,.18);
+      background: rgba(255,255,255,.76);
+      font-weight: 1000;
+      color: #4c1b3f;
+      flex: 0 0 auto;
+    }
+    .msg.me .avatar{
+      background: rgba(255,255,255,.30);
+      border: 1px solid rgba(255,255,255,.24);
+      color: #fff;
+    }
+    .typing{
+      display:none;
+      margin-top: 6px;
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--muted);
+    }
+    .typing.show{ display:block; }
+    .chatInputRow{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .chatInputRow input{
+      flex: 1;
+      min-width: 220px;
+    }
+    .quickRow{
+      display:flex; gap:8px; flex-wrap:wrap;
+    }
+    .quickRow button{
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+    }
+
+    /* Lock Screen */
+    .lock{
+      position:fixed; inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 18px 12px;
+      background: rgba(22, 6, 16, .52);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      z-index: 1000;
+    }
+    .lockCard{
+      width:min(520px, 94vw);
+      border-radius: 24px;
+      background: rgba(255,255,255,.90);
+      border: 1px solid rgba(255,255,255,.55);
+      box-shadow: 0 30px 90px rgba(0,0,0,.28);
+      overflow:hidden;
+      position:relative;
+    }
+    .lockTop{
+      padding: 16px 16px 12px;
+      background: linear-gradient(135deg, rgba(255,77,166,.18), rgba(255,182,223,.30));
+      border-bottom: 1px solid rgba(255,77,166,.16);
+      text-align:center;
+    }
+    .lockTop h2{
+      margin:0;
+      font-size: 18px;
+      font-weight: 1000;
+    }
+    .lockTop p{
+      margin:6px 0 0;
+      font-size: 12px;
+      font-weight: 850;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .lockBody{ padding: 14px 16px 16px; }
+    .lockErr{
+      display:none;
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255,77,166,.12);
+      border: 1px solid rgba(255,77,166,.20);
+      color: #5a2146;
+      font-weight: 950;
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    .lockErr.show{ display:block; }
+
+    /* Modals */
+    .modal{
+      position:fixed; inset:0;
+      display:none;
+      align-items:flex-end;
+      justify-content:center;
+      background: rgba(24, 8, 18, .55);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 1100;
+      padding: 18px 10px;
+    }
+    .modal.show{ display:flex; }
+    .sheet{
+      width: min(1100px, 96vw);
+      max-height: 86vh;
+      border-radius: 22px;
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(255,255,255,.45);
+      box-shadow: 0 30px 80px rgba(0,0,0,.28);
+      overflow:hidden;
+    }
+    .sheetTop{
+      display:flex; align-items:center; justify-content:space-between;
+      gap: 10px;
+      padding: 12px 14px;
+      background: linear-gradient(135deg, rgba(255,77,166,.18), rgba(255,182,223,.25));
+      border-bottom: 1px solid rgba(255,77,166,.18);
+    }
+    .sheetTop h3{
+      margin:0;
+      font-size: 14px;
+      font-weight: 1000;
+    }
+    .sheetTop .sheetBtns{ display:flex; gap:8px; }
+    .codeArea{
+      padding: 12px;
+      overflow:auto;
+      max-height: 72vh;
+      background: #120810;
+    }
+    pre{
+      margin:0;
+      color:#ffe7f5;
+      font-size: 12px;
+      line-height:1.45;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      white-space: pre;
+    }
+
+    .footer{
+      margin-top: 18px;
+      text-align:center;
+      color: var(--muted);
+      font-weight: 850;
+      font-size: 12px;
+      opacity: .95;
+    }
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      padding: 4px 8px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,77,166,.22);
+      background: rgba(255,255,255,.65);
+      font-size: 12px;
+      font-weight: 900;
+    }
+  </style>
+</head>
+<body>
+  <!-- Background FX -->
+  <div class="bgFX">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="spark" style="left:8%; top:18%; animation-delay:.2s;"></div>
+    <div class="spark" style="left:18%; top:8%; animation-delay:1.1s;"></div>
+    <div class="spark" style="left:82%; top:14%; animation-delay:.7s;"></div>
+    <div class="spark" style="left:72%; top:28%; animation-delay:1.7s;"></div>
+    <div class="spark" style="left:62%; top:8%; animation-delay:2.1s;"></div>
+    <div class="spark" style="left:14%; top:68%; animation-delay:1.9s;"></div>
+    <div class="spark" style="left:90%; top:74%; animation-delay:.9s;"></div>
+  </div>
+
+  <!-- 🔒 Lock Screen -->
+  <div class="lock" id="lock">
+    <div class="lockCard">
+      <div class="lockTop">
+        <h2>🔒 Masuk dulu ya 😚💗</h2>
+        <p>Password-nya harus persis: <span class="kbd">Rafen ❤️ Brigita</span><br/>Tips: huruf besar-kecil & emoji harus sama.</p>
+      </div>
+      <div class="lockBody">
+        <div class="row">
+          <input id="pw" type="password" placeholder="Masukkan password…" autocomplete="off" />
+          <button class="mini" id="pwToggle" type="button">👁️</button>
+        </div>
+        <div class="row" style="margin-top:10px;">
+          <button class="primary" id="pwEnter" type="button">Buka 💗</button>
+          <button class="ghost" id="pwHint" type="button">Copy Password</button>
+        </div>
+        <div class="lockErr" id="pwErr">Salah ya sayang 😿 Coba lagi pelan-pelan… harus persis “Rafen ❤️ Brigita”.</div>
+        <div class="tiny" style="margin-top:10px;">
+          Catatan: ini “password lokal” (tanpa server). Jadi aman buat file offline, tapi jangan dipakai buat data super sensitif ya 😚
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap" id="app" style="display:none">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="topbarInner">
+        <div class="codeBtn" id="codeLeft" title="Lihat kode (kiri)">
+          <div class="codeIcon">&lt;/&gt;</div>
+          <div style="display:flex;flex-direction:column;line-height:1.05">
+            <span style="font-size:12px;font-weight:1000">Kode</span>
+            <span style="font-size:11px;font-weight:900;color:var(--muted)">Lihat / Copy</span>
+          </div>
+        </div>
+
+        <div class="brand">
+          <h1>Rafen ❤️ Brigita</h1>
+          <p>Pink Aesthetic • Touch Friendly • Multifungsi</p>
+        </div>
+
+        <div class="codeBtn" id="codeRight" title="Lihat kode (kanan)">
+          <div style="display:flex;flex-direction:column;line-height:1.05;text-align:right">
+            <span style="font-size:12px;font-weight:1000">Code</span>
+            <span style="font-size:11px;font-weight:900;color:var(--muted)">View / Copy</span>
+          </div>
+          <div class="codeIcon">&lt;/&gt;</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Big Title -->
+    <div class="heroTitle">
+      <h2>Rafen ❤️ Brigita</h2>
+      <div class="sub">
+        Satu tempat pink yang rapih buat <b>motivasi</b>, <b>fokus belajar</b>, <b>catatan</b>, <b>chat</b>, dan <b>galeri anime</b> 😚💗✨
+      </div>
+      <div class="heroBadges">
+        <div class="chip">🔒 Password</div>
+        <div class="chip">💬 GPT-5.2 Only</div>
+        <div class="chip">📱 Touchscreen</div>
+        <div class="chip">📌 Anime Search</div>
+        <div class="chip">💾 Auto Save</div>
+      </div>
+      <div class="row" style="margin-top:14px; justify-content:center;">
+        <button class="primary" id="btnHearts">Nyalain Hearts 💗</button>
+        <button id="btnResetAll">Reset Data (Notes/Chat/Fav) 🧼</button>
+      </div>
+      <div class="tiny" style="margin-top:10px;">
+        Mode chat di sini berjalan <b>offline</b> (template & smart-replies). Label “GPT-5.2 Only” adalah gaya tampilan ya 😚💗
+      </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid2">
+
+      <!-- Left Pane: Productivity -->
+      <div class="card pane">
+        <div class="box">
+          <h3>⏳ Pomodoro Fokus</h3>
+          <p>Fokus lembut tapi tajam. Selesai 1 sesi = kamu naik level 😤💗</p>
+          <div class="row">
+            <select id="pomoMode">
+              <option value="25">25 menit fokus</option>
+              <option value="35">35 menit fokus</option>
+              <option value="45">45 menit fokus</option>
+            </select>
+            <button class="mini primary" id="pomoStart">Start</button>
+            <button class="mini" id="pomoReset">Reset</button>
+          </div>
+          <div class="row" style="margin-top:10px;">
+            <input id="pomoView" value="00:00" readonly />
+            <input id="pomoPhase" value="Fokus 💗" readonly />
+          </div>
+          <div class="tiny" id="pomoHint">Break otomatis 5 menit setelah fokus selesai ✨</div>
+        </div>
+
+        <div class="box">
+          <h3>✅ Checklist Hari Ini</h3>
+          <p>Buat kamu yang pengen rapih + konsisten + hasil nyata 😚📚</p>
+          <div class="row">
+            <input id="todoInput" placeholder="Tambah tugas… (contoh: latihan MTK 10 soal)" />
+            <button class="mini primary" id="todoAdd">+</button>
+          </div>
+          <div id="todoList" style="margin-top:10px; display:flex; flex-direction:column; gap:8px;"></div>
+          <div class="tiny" id="todoMeta"></div>
+        </div>
+
+        <div class="box">
+          <h3>📝 Catatan & Ide</h3>
+          <p>Simpan target, rencana belajar, atau hal yang kamu pengen capai 😻💗</p>
+          <textarea id="notes" placeholder="Tulis di sini…"></textarea>
+          <div class="row" style="margin-top:10px;">
+            <button class="mini primary" id="notesSave">Simpan 💾</button>
+            <button class="mini" id="notesClear">Hapus</button>
+          </div>
+          <div class="tiny" id="notesStatus"></div>
+        </div>
+
+        <div class="box">
+          <h3>📅 Counter Hari Penting</h3>
+          <p>Hitung hari menuju ulangan/event/target kamu 😚💗</p>
+          <input type="date" id="datePick" />
+          <div class="row" style="margin-top:10px;">
+            <button class="mini primary" id="dateCalc">Hitung</button>
+            <button class="mini" id="dateSetToday">Hari ini</button>
+          </div>
+          <input id="dateResult" readonly style="margin-top:10px;" value="Pilih tanggal dulu ya 😻" />
+        </div>
+
+      </div>
+
+      <!-- Right Pane: Motivation + Chat -->
+      <div class="card pane">
+
+        <div class="box">
+          <h3>💬 ChatGPT (GPT-5.2 Only)</h3>
+          <p>Chat gaya ChatGPT untuk motivasi & belajar (offline smart-replies) 😚💗</p>
+
+          <div class="chatWrap">
+            <div class="chatHeader">
+              <div class="modelTag">🤖 GPT-5.2 Only</div>
+              <div class="row" style="max-width:320px;">
+                <button class="mini" id="chatClear">Clear 🧼</button>
+                <button class="mini primary" id="chatHello">Hello 💗</button>
+              </div>
+            </div>
+
+            <div class="chatArea" id="chatArea" aria-label="Chat area"></div>
+            <div class="typing" id="typing">Bubub lagi ngetik… ⏳💗</div>
+
+            <div class="quickRow">
+              <button id="qMotiv">💪 Motivasi</button>
+              <button id="qBelajar">📚 Belajar</button>
+              <button id="qDisiplin">🔥 Disiplin</button>
+              <button id="qRapi">🧠 Ringkas</button>
+              <button id="qDoa">🙏🏻 Firman</button>
+            </div>
+
+            <div class="chatInputRow">
+              <input id="chatInput" placeholder="Tulis pesan… (contoh: motivasi ranking 3)" />
+              <button class="primary" id="chatSend">Kirim</button>
+            </div>
+
+            <div class="tiny">
+              Tips: coba kata kunci <span class="kbd">motivasi</span>, <span class="kbd">belajar</span>, <span class="kbd">matematika</span>, <span class="kbd">jadwal</span>, <span class="kbd">doa</span> 😚
+            </div>
+          </div>
+        </div>
+
+        <div class="box">
+          <h3>✨ Motivasi Pink (Auto)</h3>
+          <p>Kata-kata kecil, tapi bisa bikin kamu kuat lagi 😚💗</p>
+          <input id="quoteBox" readonly />
+          <div class="row" style="margin-top:10px;">
+            <button class="mini primary" id="quoteNext">Ganti Quote ✨</button>
+            <button class="mini" id="quoteCopy">Copy</button>
+            <button class="mini" id="quoteSave">Simpan ❤️</button>
+          </div>
+          <div class="status" id="quoteStatus"></div>
+        </div>
+
+        <div class="box">
+          <h3>🎯 Target Harian (Progress)</h3>
+          <p>Set 3 target kecil hari ini. Yang kecil tapi konsisten itu menang 😤💗</p>
+          <div class="row">
+            <input id="g1" placeholder="Target 1 (contoh: 10 soal MTK)" />
+            <input id="g2" placeholder="Target 2 (contoh: 15 menit Inggris)" />
+          </div>
+          <div class="row" style="margin-top:10px;">
+            <input id="g3" placeholder="Target 3 (contoh: rangkum IPA 1 halaman)" />
+            <button class="mini primary" id="goalSave">Simpan 🎯</button>
+          </div>
+          <div class="tiny" id="goalMeta"></div>
+        </div>
+
+        <div class="box">
+          <h3>🌸 Mood & Habit Tracker</h3>
+          <p>Biar kamu tau pola kamu sendiri (dan jadi makin kuat) 😚🫶🏻</p>
+          <div class="row">
+            <select id="mood">
+              <option value="😄">😄 Happy</option>
+              <option value="🙂">🙂 Netral</option>
+              <option value="😕">😕 Bingung</option>
+              <option value="😫">😫 Capek</option>
+              <option value="🔥">🔥 Semangat</option>
+            </select>
+            <button class="mini primary" id="moodSave">Simpan</button>
+          </div>
+          <div class="row" style="margin-top:10px;">
+            <button class="mini" id="hbAir">💧 Minum air</button>
+            <button class="mini" id="hbSkincare">🧴 Skincare</button>
+            <button class="mini" id="hbOlahraga">🏃‍♂️ Olahraga</button>
+          </div>
+          <div class="tiny" id="hbMeta"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Anime Gallery -->
+    <div class="card section">
+      <div class="sectionTitle">
+        <div>
+          <h2>📌 Anime Search (SFW • HD)</h2>
+          <p class="hint">Cari anime cantik bebas — tetap aman (SFW), bisa Refresh + Download HD 😻💗</p>
+        </div>
+        <div class="hint">Sumber: waifu.im (is_nsfw=false)</div>
+      </div>
+
+      <div class="controls">
+        <div class="searchWrap">
+          <input id="searchInput" placeholder="Search tag anime… (contoh: waifu, maid, uniform, selfie, kawaii)" />
+          <button class="primary" id="btnSearch">Search 🔎</button>
+        </div>
+        <select id="countPick" style="max-width:160px;">
+          <option value="8">8 gambar</option>
+          <option value="12" selected>12 gambar</option>
+          <option value="16">16 gambar</option>
+        </select>
+        <button id="btnRefresh">Refresh ♻️</button>
+        <button id="btnClearSearch" class="ghost">Reset</button>
+        <button id="btnFavOpen" class="ghost">Favorit ❤️</button>
+      </div>
+
+      <div class="masonry" id="masonry"></div>
+
+      <div class="status" id="galleryStatus">
+        <span class="pill">🔎 Tag: <b id="tagLabel">waifu</b></span>
+        <span class="pill">⬇️ Download HD siap</span>
+        <span class="pill">❤️ Simpan favorit</span>
+      </div>
+    </div>
+
+    <div class="footer">
+      Dibuat buat kamu yang pengen rapih + manis + produktif 😚💗 • <span class="kbd">Rafen ❤️ Brigita</span>
+    </div>
+  </div>
+
+  <!-- Favorites Modal -->
+  <div class="modal" id="favModal" aria-hidden="true">
+    <div class="sheet" role="dialog" aria-modal="true" aria-label="Favorit">
+      <div class="sheetTop">
+        <h3>❤️ Favorit Anime (tersimpan)</h3>
+        <div class="sheetBtns">
+          <button class="mini" id="favClear">Hapus Favorit 🧼</button>
+          <button class="mini primary" id="favClose">Tutup</button>
+        </div>
+      </div>
+      <div class="codeArea" style="background: rgba(255,255,255,.92); max-height:72vh;">
+        <div style="padding:12px;">
+          <div class="tiny" style="margin-bottom:10px;">Favorit tersimpan di HP kamu (localStorage) 😚💗</div>
+          <div class="masonry" id="favMasonry"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Code Viewer Modal -->
+  <div class="modal" id="codeModal" aria-hidden="true">
+    <div class="sheet" role="dialog" aria-modal="true" aria-label="Code Viewer">
+      <div class="sheetTop">
+        <h3>👀 Code Viewer — index.html</h3>
+        <div class="sheetBtns">
+          <button class="mini primary" id="codeCopy">Copy Kode</button>
+          <button class="mini" id="codeClose">Tutup</button>
+        </div>
+      </div>
+      <div class="codeArea">
+        <pre id="codePre"></pre>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // =========================
+  // Helpers
+  // =========================
+  const $ = (q) => document.querySelector(q);
+  const $$ = (q) => Array.from(document.querySelectorAll(q));
+  const PASSWORD = "Rafen ❤️ Brigita";
+
+  function escapeHTML(str){
+    return String(str ?? "")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  function toast(msg){
+    const t = document.createElement("div");
+    t.textContent = msg;
+    t.style.position="fixed";
+    t.style.left="50%";
+    t.style.bottom="18px";
+    t.style.transform="translateX(-50%)";
+    t.style.padding="12px 14px";
+    t.style.borderRadius="16px";
+    t.style.background="rgba(255,255,255,.88)";
+    t.style.border="1px solid rgba(255,77,166,.25)";
+    t.style.boxShadow="0 16px 30px rgba(255,77,166,.18)";
+    t.style.fontWeight="950";
+    t.style.zIndex="2000";
+    t.style.maxWidth="92vw";
+    t.style.textAlign="center";
+    t.style.color="#3b1330";
+    document.body.appendChild(t);
+    setTimeout(()=> t.remove(), 1800);
+  }
+
+  async function copyText(text){
+    try{
+      await navigator.clipboard.writeText(text);
+      toast("Copied 💗");
+    }catch{
+      toast("Gagal copy 😿");
+    }
+  }
+
+  async function downloadImage(url, filename="anime_hd.jpg"){
+    try{
+      const r = await fetch(url, { mode:"cors" });
+      const blob = await r.blob();
+      const a = document.createElement("a");
+      const obj = URL.createObjectURL(blob);
+      a.href = obj;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(obj);
+    }catch(e){
+      window.open(url, "_blank");
+    }
+  }
+
+  // =========================
+  // Lock Screen
+  // =========================
+  const lock = $("#lock");
+  const app = $("#app");
+  const pw = $("#pw");
+  const pwErr = $("#pwErr");
+  const pwToggle = $("#pwToggle");
+
+  function unlock(){
+    lock.style.display = "none";
+    app.style.display = "block";
+    toast("Welcome 😚💗");
+  }
+
+  function tryUnlock(){
+    const v = pw.value ?? "";
+    if(v === PASSWORD){
+      pwErr.classList.remove("show");
+      localStorage.setItem("rb_unlocked", "1");
+      unlock();
+    }else{
+      pwErr.classList.add("show");
+      toast("Salah password 😿");
+    }
+  }
+
+  $("#pwEnter").addEventListener("click", tryUnlock);
+  pw.addEventListener("keydown", (e)=>{ if(e.key === "Enter") tryUnlock(); });
+
+  pwToggle.addEventListener("click", ()=>{
+    pw.type = pw.type === "password" ? "text" : "password";
+    pwToggle.textContent = pw.type === "password" ? "👁️" : "🙈";
+  });
+
+  $("#pwHint").addEventListener("click", ()=> copyText(PASSWORD));
+
+  (function boot(){
+    if(localStorage.getItem("rb_unlocked") === "1"){
+      unlock();
+    }
+  })();
+
+  // =========================
+  // Hearts
+  // =========================
+  let heartsOn = false;
+  let heartTimer = null;
+
+  function spawnHeart(){
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.bottom = "-20px";
+    const s = 0.7 + Math.random() * 1.2;
+    h.style.transform = `rotate(45deg) scale(${s})`;
+    h.style.animationDuration = (4.5 + Math.random()*3.0) + "s";
+    h.style.opacity = (0.30 + Math.random()*0.60);
+    document.body.appendChild(h);
+    setTimeout(()=> h.remove(), 7200);
+  }
+
+  $("#btnHearts").addEventListener("click", ()=>{
+    heartsOn = !heartsOn;
+    $("#btnHearts").textContent = heartsOn ? "Matikan Hearts 💗" : "Nyalain Hearts 💗";
+    if(heartsOn){
+      toast("Hearts ON 😻💗");
+      heartTimer = setInterval(spawnHeart, 360);
+      for(let i=0;i<10;i++) spawnHeart();
+    }else{
+      toast("Hearts OFF 😚");
+      clearInterval(heartTimer);
+      heartTimer = null;
+      $$(".heart").forEach(x=>x.remove());
+    }
+  });
+
+  // =========================
+  // Reset All
+  // =========================
+  $("#btnResetAll").addEventListener("click", ()=>{
+    const ok = confirm("Reset semua data (notes, checklist, chat, favorit, target)?");
+    if(!ok) return;
+    [
+      "rb_notes_v2","rb_todos_v2","rb_chat_v1","rb_favs_v1",
+      "rb_quote_fav_v1","rb_goals_v1","rb_habits_v1","rb_mood_v1"
+    ].forEach(k=>localStorage.removeItem(k));
+    toast("Reset selesai 🧼💗");
+    location.reload();
+  });
+
+  // =========================
+  // Notes
+  // =========================
+  const notesKey = "rb_notes_v2";
+  const notes = $("#notes");
+  const notesStatus = $("#notesStatus");
+
+  function loadNotes(){
+    const v = localStorage.getItem(notesKey) || "";
+    notes.value = v;
+    notesStatus.textContent = v ? "Tersimpan 💾" : "Belum ada catatan 😚";
+  }
+  loadNotes();
+
+  $("#notesSave").addEventListener("click", ()=>{
+    localStorage.setItem(notesKey, notes.value);
+    notesStatus.textContent = "Catatan tersimpan 💾💗";
+    toast("Catatan tersimpan 😚💗");
+  });
+
+  $("#notesClear").addEventListener("click", ()=>{
+    notes.value = "";
+    localStorage.removeItem(notesKey);
+    notesStatus.textContent = "Dihapus 🧼";
+    toast("Catatan dihapus 😗");
+  });
+
+  // =========================
+  // Todo
+  // =========================
+  const todoKey = "rb_todos_v2";
+  const todoInput = $("#todoInput");
+  const todoList = $("#todoList");
+  const todoMeta = $("#todoMeta");
+
+  function readTodos(){
+    try{ return JSON.parse(localStorage.getItem(todoKey) || "[]"); }
+    catch{ return []; }
+  }
+  function writeTodos(arr){
+    localStorage.setItem(todoKey, JSON.stringify(arr));
+  }
+  function renderTodos(){
+    const arr = readTodos();
+    todoList.innerHTML = "";
+    let done = 0;
+
+    arr.forEach((t, idx)=>{
+      if(t.done) done++;
+      const row = document.createElement("div");
+      row.style.display="flex";
+      row.style.gap="10px";
+      row.style.alignItems="center";
+      row.style.padding="10px 10px";
+      row.style.borderRadius="14px";
+      row.style.border="1px solid rgba(255,77,166,.18)";
+      row.style.background="rgba(255,255,255,.76)";
+
+      const cb = document.createElement("input");
+      cb.type="checkbox";
+      cb.checked=!!t.done;
+      cb.style.width="22px";
+      cb.style.height="22px";
+      cb.style.flex="0 0 auto";
+
+      const txt = document.createElement("div");
+      txt.textContent = t.text;
+      txt.style.fontWeight="950";
+      txt.style.color = t.done ? "rgba(43,18,39,.55)" : "#2b1227";
+      txt.style.textDecoration = t.done ? "line-through" : "none";
+      txt.style.flex="1";
+
+      const del = document.createElement("div");
+      del.className="iconBtn";
+      del.title="Hapus";
+      del.textContent = "🗑️";
+      del.style.width="42px";
+      del.style.height="42px";
+
+      cb.addEventListener("change", ()=>{
+        const a = readTodos();
+        a[idx].done = cb.checked;
+        writeTodos(a);
+        renderTodos();
+      });
+
+      del.addEventListener("click", ()=>{
+        const a = readTodos();
+        a.splice(idx,1);
+        writeTodos(a);
+        renderTodos();
+        toast("Tugas dihapus 😚");
+      });
+
+      row.appendChild(cb);
+      row.appendChild(txt);
+      row.appendChild(del);
+      todoList.appendChild(row);
+    });
+
+    todoMeta.textContent = arr.length
+      ? `Progress: ${done}/${arr.length} selesai ✅`
+      : "Belum ada tugas. Tambah satu yang kecil dulu ya 😚✨";
+  }
+  renderTodos();
+
+  $("#todoAdd").addEventListener("click", ()=>{
+    const v = todoInput.value.trim();
+    if(!v) return toast("Tulis dulu tugasnya ya 😻");
+    const arr = readTodos();
+    arr.unshift({ text:v, done:false, at: Date.now() });
+    writeTodos(arr);
+    todoInput.value = "";
+    renderTodos();
+    toast("Masuk list ✅💗");
+  });
+
+  todoInput.addEventListener("keydown", (e)=>{
+    if(e.key === "Enter") $("#todoAdd").click();
+  });
+
+  // =========================
+  // Pomodoro
+  // =========================
+  let pomoTimer = null;
+  let remaining = 0;
+  let phase = "focus"; // focus | break
+
+  function fmt(sec){
+    const m = Math.floor(sec/60);
+    const s = sec%60;
+    return String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+  }
+
+  function setPomoView(){
+    $("#pomoView").value = fmt(remaining);
+    $("#pomoPhase").value = phase === "focus" ? "Fokus 💗" : "Break 😚";
+    $("#pomoHint").textContent = phase === "focus"
+      ? "Fokus… kamu kuat 😤💗"
+      : "Break sebentar ya sayang 😚🫶🏻";
+  }
+
+  function startPomo(){
+    const mins = parseInt($("#pomoMode").value, 10);
+    if(!remaining) remaining = mins * 60;
+    if(pomoTimer) return;
+
+    pomoTimer = setInterval(()=>{
+      remaining--;
+      if(remaining <= 0){
+        clearInterval(pomoTimer);
+        pomoTimer = null;
+
+        if(phase === "focus"){
+          phase = "break";
+          remaining = 5 * 60;
+          toast("Selesai fokus! Break 5 menit 😚💗");
+        }else{
+          phase = "focus";
+          remaining = parseInt($("#pomoMode").value,10) * 60;
+          toast("Break selesai! Balik fokus 😤✨");
+        }
+        setPomoView();
+        startPomo();
+        return;
+      }
+      setPomoView();
+    }, 1000);
+
+    $("#pomoStart").textContent = "Running…";
+    setPomoView();
+  }
+
+  function resetPomo(){
+    clearInterval(pomoTimer);
+    pomoTimer = null;
+    phase = "focus";
+    remaining = parseInt($("#pomoMode").value,10) * 60;
+    $("#pomoStart").textContent = "Start";
+    setPomoView();
+  }
+
+  $("#pomoStart").addEventListener("click", ()=>{
+    if(pomoTimer){
+      clearInterval(pomoTimer);
+      pomoTimer = null;
+      $("#pomoStart").textContent = "Start";
+      toast("Pause dulu 😚");
+      return;
+    }
+    startPomo();
+  });
+  $("#pomoReset").addEventListener("click", resetPomo);
+  $("#pomoMode").addEventListener("change", resetPomo);
+  resetPomo();
+
+  // =========================
+  // Date Counter
+  // =========================
+  function setToday(){
+    const d = new Date();
+    const iso = new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().slice(0,10);
+    $("#datePick").value = iso;
+  }
+  $("#dateSetToday").addEventListener("click", ()=>{
+    setToday();
+    toast("Set ke hari ini 😚");
+  });
+
+  $("#dateCalc").addEventListener("click", ()=>{
+    const v = $("#datePick").value;
+    if(!v) return toast("Pilih tanggal dulu ya 😻");
+    const target = new Date(v+"T00:00:00");
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const diff = Math.round((target - today) / (1000*60*60*24));
+    let msg = "";
+    if(diff > 0) msg = `Masih ${diff} hari lagi 😚💗`;
+    else if(diff < 0) msg = `Sudah lewat ${Math.abs(diff)} hari 🫶🏻`;
+    else msg = `Hari ini! ✨😻`;
+    $("#dateResult").value = msg;
+    toast("Oke dihitung 💗");
+  });
+
+  // =========================
+  // Quotes + saved favorites
+  // =========================
+  const quoteFavKey = "rb_quote_fav_v1";
+  const quoteStatus = $("#quoteStatus");
+
+  const quotes = [
+    "Pelan-pelan tapi pasti… kamu lagi naik level 😚💗",
+    "Konsisten itu romantis banget… serius 😻✨",
+    "Kamu gak harus sempurna, kamu cuma harus lanjut 😚🌸",
+    "Sedikit tiap hari = jauh banget hasilnya 😤💗",
+    "Kalau capek, istirahat. Jangan menyerah ya sayang 🫶🏻😚",
+    "Fokus kecil hari ini, jadi masa depan besar besok 😻✨",
+    "Kamu bukan telat—kamu lagi proses. Lanjut ya 😚💗",
+    "Disiplin itu bentuk sayang ke masa depan kamu 😤💞",
+    "Nilai tinggi itu bonus. Mental kuat itu fondasi 😚🧠",
+    "Satu langkah kecil hari ini, ngalahin 100 niat doang 😻✨"
+  ];
+
+  const verses = [
+    "“Aku menyertai engkau senantiasa.” (Matius 28:20) 🙏🏻",
+    "“Kuatkan dan teguhkanlah hatimu.” (Yosua 1:9) 💪🙏🏻",
+    "“Tuhan adalah gembalaku, takkan kekurangan aku.” (Mazmur 23:1) 🤍🙏🏻",
+    "“Kasih itu sabar; kasih itu murah hati.” (1 Korintus 13:4) 💗🙏🏻"
+  ];
+
+  function readQuoteFav(){
+    try{ return JSON.parse(localStorage.getItem(quoteFavKey) || "[]"); }
+    catch{ return []; }
+  }
+  function writeQuoteFav(arr){
+    localStorage.setItem(quoteFavKey, JSON.stringify(arr));
+  }
+
+  function renderQuoteStatus(){
+    const fav = readQuoteFav();
+    quoteStatus.innerHTML = fav.length
+      ? `<span class="pill">❤️ Favorit: ${fav.length}</span><span class="pill">💾 Tersimpan</span>`
+      : `<span class="pill">Belum ada favorit 😚</span>`;
+  }
+  renderQuoteStatus();
+
+  function nextQuote(){
+    const q = quotes[Math.floor(Math.random()*quotes.length)];
+    $("#quoteBox").value = q;
+  }
+  nextQuote();
+
+  $("#quoteNext").addEventListener("click", ()=>{
+    nextQuote();
+    toast("Quote baru 😻");
+  });
+
+  $("#quoteCopy").addEventListener("click", ()=> copyText($("#quoteBox").value));
+  $("#quoteSave").addEventListener("click", ()=>{
+    const q = $("#quoteBox").value.trim();
+    if(!q) return;
+    const fav = readQuoteFav();
+    if(!fav.includes(q)) fav.unshift(q);
+    writeQuoteFav(fav.slice(0,50));
+    renderQuoteStatus();
+    toast("Disimpan ❤️💗");
+  });
+
+  // =========================
+  // Goals
+  // =========================
+  const goalsKey = "rb_goals_v1";
+  function loadGoals(){
+    try{
+      const o = JSON.parse(localStorage.getItem(goalsKey) || "{}");
+      $("#g1").value = o.g1 || "";
+      $("#g2").value = o.g2 || "";
+      $("#g3").value = o.g3 || "";
+      $("#goalMeta").textContent = o.at ? `Tersimpan: ${new Date(o.at).toLocaleString()}` : "Belum disimpan 😚";
+    }catch{
+      $("#goalMeta").textContent = "Belum disimpan 😚";
+    }
+  }
+  loadGoals();
+
+  $("#goalSave").addEventListener("click", ()=>{
+    const o = { g1:$("#g1").value, g2:$("#g2").value, g3:$("#g3").value, at:Date.now() };
+    localStorage.setItem(goalsKey, JSON.stringify(o));
+    loadGoals();
+    toast("Target tersimpan 🎯💗");
+  });
+
+  // =========================
+  // Mood & Habits
+  // =========================
+  const moodKey = "rb_mood_v1";
+  const habitKey = "rb_habits_v1";
+  const hbMeta = $("#hbMeta");
+
+  function readHabits(){
+    try{ return JSON.parse(localStorage.getItem(habitKey) || "{}"); }catch{ return {}; }
+  }
+  function writeHabits(o){
+    localStorage.setItem(habitKey, JSON.stringify(o));
+  }
+  function renderHabits(){
+    const o = readHabits();
+    const today = new Date().toISOString().slice(0,10);
+    const t = o[today] || { air:0, skincare:0, olahraga:0, mood:"" };
+    hbMeta.textContent = `Hari ini: mood ${t.mood || "—"} | air ${t.air} | skincare ${t.skincare} | olahraga ${t.olahraga}`;
+  }
+  renderHabits();
+
+  $("#moodSave").addEventListener("click", ()=>{
+    const o = readHabits();
+    const today = new Date().toISOString().slice(0,10);
+    o[today] = o[today] || { air:0, skincare:0, olahraga:0, mood:"" };
+    o[today].mood = $("#mood").value;
+    writeHabits(o);
+    localStorage.setItem(moodKey, $("#mood").value);
+    toast("Mood tersimpan 😚💗");
+    renderHabits();
+  });
+
+  function bumpHabit(field){
+    const o = readHabits();
+    const today = new Date().toISOString().slice(0,10);
+    o[today] = o[today] || { air:0, skincare:0, olahraga:0, mood:"" };
+    o[today][field] = (o[today][field] || 0) + 1;
+    writeHabits(o);
+    toast("Mantap 😻✨");
+    renderHabits();
+  }
+  $("#hbAir").addEventListener("click", ()=> bumpHabit("air"));
+  $("#hbSkincare").addEventListener("click", ()=> bumpHabit("skincare"));
+  $("#hbOlahraga").addEventListener("click", ()=> bumpHabit("olahraga"));
+
+  (function(){
+    const m = localStorage.getItem(moodKey);
+    if(m) $("#mood").value = m;
+  })();
+
+  // =========================
+  // Chat (Offline smart replies)
+  // =========================
+  const chatKey = "rb_chat_v1";
+  const chatArea = $("#chatArea");
+  const typing = $("#typing");
+
+  function readChat(){
+    try{ return JSON.parse(localStorage.getItem(chatKey) || "[]"); }catch{ return []; }
+  }
+  function writeChat(arr){
+    localStorage.setItem(chatKey, JSON.stringify(arr));
+  }
+
+  function renderChat(){
+    chatArea.innerHTML = "";
+    const arr = readChat();
+    arr.forEach(m=>{
+      const row = document.createElement("div");
+      row.className = "msg " + (m.role === "me" ? "me" : "bot");
+      const av = document.createElement("div");
+      av.className = "avatar";
+      av.textContent = m.role === "me" ? "R" : "</>";
+      const bub = document.createElement("div");
+      bub.className = "bubble";
+      bub.textContent = m.text;
+      if(m.role === "me"){
+        row.appendChild(bub);
+        row.appendChild(av);
+      }else{
+        row.appendChild(av);
+        row.appendChild(bub);
+      }
+      chatArea.appendChild(row);
+    });
+    chatArea.scrollTop = chatArea.scrollHeight;
+  }
+
+  function pushChat(role, text){
+    const arr = readChat();
+    arr.push({ role, text, at: Date.now() });
+    writeChat(arr.slice(-120));
+    renderChat();
+  }
+
+  function botReply(userText){
+    const t = (userText || "").toLowerCase();
+
+    if(t.includes("doa") || t.includes("firman") || t.includes("ayat")){
+      return verses[Math.floor(Math.random()*verses.length)] + "\n\nKalau kamu mau, kamu bisa doa singkat: “Tuhan Yesus, kuatkan aku hari ini. Amin.” 🤍";
+    }
+    if(t.includes("matematika") || t.includes("mtk")){
+      return "Oke 😚📚 Untuk Matematika: pilih 1 topik, kerjain 10 soal, cek salahnya, ulang 5 soal yang mirip.\n\nKalau kamu bilang topiknya (misal: persamaan kuadrat / peluang / bangun ruang), aku buatin langkah belajar yang rapi ✨";
+    }
+    if(t.includes("jadwal")){
+      return "Siap 😻🗓️ Aku saranin jadwal mini 60 menit:\n• 25m fokus (Pomodoro)\n• 5m break\n• 25m latihan soal\n• 5m rangkum\n\nKalau kamu mau, ketik: “jadwal 2 jam” atau “jadwal malam” 😚";
+    }
+    if(t.includes("ringkas") || t.includes("singkat") || t.includes("rapi")){
+      return "Oke sayang 😚🧠\n1) Tentukan 1 tujuan\n2) Kerjain 1 sesi fokus\n3) Cek hasil\n4) Simpan catatan\n\nMau aku ringkas tentang apa nih? ✨";
+    }
+    if(t.includes("disiplin") || t.includes("malas") || t.includes("mager")){
+      return "Dengerin ya 😚🔥 disiplin itu bukan nunggu mood, tapi mulai dulu 5 menit.\n\nTrik: set timer 5 menit → mulai → kalau udah jalan, biasanya keterusan.\nKamu mau aku bikin “aturan 5 menit” versi kamu? 😻";
+    }
+    if(t.includes("motiv") || t.includes("semangat") || t.includes("ranking")){
+      const q = quotes[Math.floor(Math.random()*quotes.length)];
+      return q + "\n\nTarget kamu itu realistis kalau kamu konsisten. Ambil 1 tugas kecil sekarang: 10 soal atau 1 rangkuman 😤💗";
+    }
+
+    const pool = [
+      "Aku denger kamu 😚💗 Kamu mau fokus ke apa sekarang—belajar, motivasi, atau rapihin target?",
+      "Oke sayang 😻✨ kasih aku 1 kata kunci (belajar / motivasi / jadwal / matematika) biar aku jawab paling pas.",
+      "Kamu hebat udah buka web ini 😚💗 Satu langkah kecil sekarang, hasilnya gede nanti."
+    ];
+    return pool[Math.floor(Math.random()*pool.length)];
+  }
+
+  function sendChat(text){
+    const msg = (text || $("#chatInput").value || "").trim();
+    if(!msg) return toast("Tulis dulu ya 😻");
+    $("#chatInput").value = "";
+    pushChat("me", msg);
+
+    typing.classList.add("show");
+    const delay = 450 + Math.floor(Math.random()*450);
+    setTimeout(()=>{
+      const r = botReply(msg);
+      pushChat("bot", r);
+      typing.classList.remove("show");
+    }, delay);
+  }
+
+  $("#chatSend").addEventListener("click", ()=> sendChat());
+  $("#chatInput").addEventListener("keydown", (e)=>{ if(e.key === "Enter") sendChat(); });
+
+  $("#chatClear").addEventListener("click", ()=>{
+    const ok = confirm("Hapus chat?");
+    if(!ok) return;
+    localStorage.removeItem(chatKey);
+    renderChat();
+    toast("Chat dibersihin 🧼");
+  });
+
+  $("#chatHello").addEventListener("click", ()=>{
+    pushChat("bot", "Halo Rafen sayang 😚💗 Mau fokus apa hari ini? Ketik: motivasi / belajar / matematika / jadwal / doa 🙏🏻");
+  });
+
+  $("#qMotiv").addEventListener("click", ()=> sendChat("motivasi"));
+  $("#qBelajar").addEventListener("click", ()=> sendChat("belajar"));
+  $("#qDisiplin").addEventListener("click", ()=> sendChat("disiplin"));
+  $("#qRapi").addEventListener("click", ()=> sendChat("ringkas"));
+  $("#qDoa").addEventListener("click", ()=> sendChat("doa"));
+
+  (function(){
+    const arr = readChat();
+    if(arr.length === 0){
+      pushChat("bot", "Halo 😚💗 Aku mode GPT-5.2 Only (offline). Ketik: motivasi / belajar / matematika / jadwal / doa 🙏🏻");
+    }else{
+      renderChat();
+    }
+  })();
+
+  // =========================
+  // Anime Gallery (waifu.im, SFW)
+  // =========================
+  const masonry = $("#masonry");
+  const tagLabel = $("#tagLabel");
+  const favModal = $("#favModal");
+  const favMasonry = $("#favMasonry");
+  const favKey = "rb_favs_v1";
+  let currentTag = "waifu";
+
+  function readFavs(){
+    try{ return JSON.parse(localStorage.getItem(favKey) || "[]"); }catch{ return []; }
+  }
+  function writeFavs(arr){
+    localStorage.setItem(favKey, JSON.stringify(arr));
+  }
+
+  function buildWaifuURL(tag){
+    const clean = (tag || "waifu")
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, ",");
+    return `https://api.waifu.im/search?included_tags=${encodeURIComponent(clean)}&is_nsfw=false&many=true`;
+  }
+
+  function pinTemplate(url, label){
+    const wrap = document.createElement("div");
+    wrap.className = "pin";
+
+    const img = document.createElement("img");
+    img.src = url;
+    img.loading = "lazy";
+    img.alt = "Anime HD";
+    img.referrerPolicy = "no-referrer";
+
+    const bar = document.createElement("div");
+    bar.className = "pinBar";
+
+    const badge = document.createElement("div");
+    badge.className = "badge";
+    badge.textContent = "💗 " + (label || "anime");
+
+    const actions = document.createElement("div");
+    actions.className = "pinActions";
+
+    const btnFav = document.createElement("div");
+    btnFav.className = "iconBtn";
+    btnFav.title = "Simpan Favorit";
+    btnFav.textContent = "❤️";
+
+    const btnOpen = document.createElement("div");
+    btnOpen.className = "iconBtn";
+    btnOpen.title = "Open";
+    btnOpen.textContent = "🔍";
+
+    const btnDL = document.createElement("div");
+    btnDL.className = "iconBtn";
+    btnDL.title = "Download HD";
+    btnDL.textContent = "⬇️";
+
+    btnFav.addEventListener("click", ()=>{
+      const fav = readFavs();
+      if(!fav.includes(url)) fav.unshift(url);
+      writeFavs(fav.slice(0,120));
+      toast("Masuk Favorit ❤️");
+    });
+
+    btnOpen.addEventListener("click", ()=> window.open(url, "_blank"));
+    btnDL.addEventListener("click", async ()=>{
+      const name = `anime_${currentTag}_${Date.now()}.jpg`;
+      await downloadImage(url, name);
+      toast("Download HD ⬇️😻");
+    });
+
+    actions.appendChild(btnOpen);
+    actions.appendChild(btnFav);
+    actions.appendChild(btnDL);
+
+    bar.appendChild(badge);
+    bar.appendChild(actions);
+
+    wrap.appendChild(img);
+    wrap.appendChild(bar);
+    return wrap;
+  }
+
+  async function loadGallery(tag){
+    currentTag = (tag || "waifu").trim() || "waifu";
+    tagLabel.textContent = currentTag;
+    masonry.innerHTML = "";
+    toast("Loading anime… ✨");
+
+    const want = parseInt($("#countPick").value, 10) || 12;
+
+    try{
+      const api = buildWaifuURL(currentTag);
+      const res = await fetch(api);
+      const data = await res.json();
+      const images = (data && data.images) ? data.images : [];
+      if(!images.length){
+        toast("Tag tidak ketemu 😿");
+        return;
+      }
+      const list = images.map(x => x.url).filter(Boolean).slice(0, want);
+      list.forEach((url)=> masonry.appendChild(pinTemplate(url, currentTag)));
+      toast(`Tampil ${list.length} gambar 😻`);
+    }catch(e){
+      toast("Gagal ambil gambar (cek internet) 😿");
+    }
+  }
+
+  $("#btnRefresh").addEventListener("click", ()=> loadGallery(currentTag));
+  $("#btnSearch").addEventListener("click", ()=>{
+    const v = $("#searchInput").value.trim();
+    if(!v) return toast("Ketik tag dulu ya 😻");
+    loadGallery(v);
+  });
+  $("#btnClearSearch").addEventListener("click", ()=>{
+    $("#searchInput").value = "";
+    loadGallery("waifu");
+  });
+  $("#searchInput").addEventListener("keydown", (e)=>{ if(e.key === "Enter") $("#btnSearch").click(); });
+  $("#countPick").addEventListener("change", ()=> loadGallery(currentTag));
+
+  function openFav(){
+    const fav = readFavs();
+    favMasonry.innerHTML = "";
+    if(fav.length === 0){
+      const d = document.createElement("div");
+      d.className = "tiny";
+      d.textContent = "Belum ada favorit 😚 (klik ❤️ di gambar anime untuk simpan)";
+      favMasonry.appendChild(d);
+    }else{
+      fav.slice(0,60).forEach((url)=> favMasonry.appendChild(pinTemplate(url, "Favorit")));
+    }
+    favModal.classList.add("show");
+    favModal.setAttribute("aria-hidden","false");
+  }
+  function closeFav(){
+    favModal.classList.remove("show");
+    favModal.setAttribute("aria-hidden","true");
+  }
+
+  $("#btnFavOpen").addEventListener("click", openFav);
+  $("#favClose").addEventListener("click", closeFav);
+  favModal.addEventListener("click", (e)=>{ if(e.target === favModal) closeFav(); });
+
+  $("#favClear").addEventListener("click", ()=>{
+    const ok = confirm("Hapus semua favorit?");
+    if(!ok) return;
+    localStorage.removeItem(favKey);
+    openFav();
+    toast("Favorit dihapus 🧼");
+  });
+
+  // boot gallery
+  loadGallery("waifu");
+
+  // =========================
+  // Code Viewer
+  // =========================
+  const codeModal = $("#codeModal");
+  const codePre = $("#codePre");
+
+  function openCode(){
+    const html = "<!doctype html>\n" + document.documentElement.outerHTML;
+    codePre.textContent = html;
+    codeModal.classList.add("show");
+    codeModal.setAttribute("aria-hidden","false");
+    toast("Kode kebuka 😻</>");
+  }
+  function closeCode(){
+    codeModal.classList.remove("show");
+    codeModal.setAttribute("aria-hidden","true");
+  }
+
+  $("#codeLeft").addEventListener("click", openCode);
+  $("#codeRight").addEventListener("click", openCode);
+  $("#codeClose").addEventListener("click", closeCode);
+
+  codeModal.addEventListener("click", (e)=>{ if(e.target === codeModal) closeCode(); });
+  document.addEventListener("keydown", (e)=>{ if(e.key === "Escape"){ closeCode(); closeFav(); } });
+
+  $("#codeCopy").addEventListener("click", ()=> copyText(codePre.textContent));
+</script>
+</body>
+</html>
