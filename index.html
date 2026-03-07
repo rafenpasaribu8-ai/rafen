@@ -462,7 +462,11 @@
     }
 
     function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch {
+        setStatus('Penyimpanan lokal penuh/tidak tersedia.');
+      }
     }
 
     function activeConv() {
@@ -572,7 +576,11 @@
     }
 
     function getGeminiKey() {
-      return localStorage.getItem(GEMINI_KEY_STORAGE) || '';
+      try {
+        return localStorage.getItem(GEMINI_KEY_STORAGE) || '';
+      } catch {
+        return '';
+      }
     }
 
     function saveGeminiKey() {
@@ -581,8 +589,16 @@
         setStatus('API key kosong.');
         return;
       }
-      localStorage.setItem(GEMINI_KEY_STORAGE, key);
-      setStatus('API key berhasil disimpan di browser lokal.');
+      if (key.length < 20) {
+        setStatus('Format API key terlihat tidak valid.');
+        return;
+      }
+      try {
+        localStorage.setItem(GEMINI_KEY_STORAGE, key);
+        setStatus('API key berhasil disimpan di browser lokal.');
+      } catch {
+        setStatus('Gagal menyimpan API key di browser.');
+      }
     }
 
     async function callGeminiRealtime(input) {
@@ -616,17 +632,24 @@
         }
       };
 
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 20000);
+
       const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        signal: controller.signal
       });
-
-      if (!res.ok) {
-        throw new Error(`Gemini API error ${res.status}`);
-      }
+      clearTimeout(timeoutId);
 
       const data = await res.json();
+
+      if (!res.ok || data?.error) {
+        const msg = data?.error?.message || `Gemini API error ${res.status}`;
+        throw new Error(msg);
+      }
+
       const text = data?.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('').trim();
       return text || null;
     }
@@ -653,7 +676,10 @@
 
       try {
         const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(keyword)}`;
-        const res = await fetch(url, { headers: { accept: 'application/json' } });
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 12000);
+        const res = await fetch(url, { headers: { accept: 'application/json' }, signal: controller.signal });
+        clearTimeout(timeoutId);
         if (!res.ok) throw new Error('Search error');
         const data = await res.json();
         const now = new Date().toLocaleString('id-ID');
